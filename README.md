@@ -1,4 +1,4 @@
-# Feminicides·Info - Cli
+# Feminicides·Info - CLI
 
 Outil en ligne de commande pour le téléchargement et la conversion des données
 des féminicides depuis le format KML (des cartographies Google Maps) vers le
@@ -44,7 +44,7 @@ Auteur : Glenn Rolland.
 
 ## Sponsors et financement
 
-[Féminicides·Info]((https://github.com/glenux/feminicides-info) est un projet indépendant dont le développement continu est rendu possible grâce au soutien de ses mécènes. 
+[Féminicides·Info](https://github.com/glenux/feminicides-info-cli) est un projet indépendant dont le développement continu est rendu possible grâce au soutien de ses mécènes.
 
 Si vous souhaitez vous joindre à eux et soutenir le travail de son auteur, il suffit de participer avec ce lien :
 
