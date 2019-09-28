@@ -54,7 +54,7 @@ Par exemple pour 2016 :
 
 [Féminicides·Info CLI](https://github.com/glenux/feminicides-info-cli) est un projet open source sous licence LGPL-3.
 
-Auteur : Glenn Rolland.
+Auteur : Glenn Rolland ([@glenux](https://twitter.com/glenux))
 
 ## Sponsors et financement
 
