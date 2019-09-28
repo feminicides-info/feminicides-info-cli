@@ -2,7 +2,7 @@
 
 Outil en ligne de commande pour le téléchargement et la conversion des données
 des féminicides depuis le format KML (des cartographies Google Maps) vers le
-format JSON.(utilisables pour différents rendu web).
+format JSON (utilisables pour différents rendu web).
 
 Les données originales des cartographies Google Maps sont produites par les
 autrices du groupe Facebook [Féminicides par compagnons ou
