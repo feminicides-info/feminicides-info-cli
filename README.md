@@ -12,25 +12,26 @@ ex](https://www.facebook.com/feminicide/). .
 ## Installation
 
 Assurez-vous d'avoir installé Go (version 1.12 ou supérieure) sur votre
-ordinateur.
+ordinateur et que $GOPATH/bin soit bien configuré dans le $PATH.
 
 Depuis la ligne de commande, tapez :
 
-    $ make
+    $ git clone https://github.com/glenux/feminicides-info-cli/
+    $ go install  ./...
 
 
 ## Usage
 
 Pour télécharger les données des féminicides au format KML :
 
-    $ ./fi-cli fetch 2016
+    $ fi-cli fetch 2016
     Fetching KML for year 2016
     Fetching from https://www.google.com/maps/...
     SUCCESS
 
 Pour convertir les fichiers KML au format JSON :
 
-    $ ./fi-cli convert doc-2019.kml doc-2019.json
+    $ fi-cli convert doc-2019.kml doc-2019.json
     $ ls
     doc-2019.kml doc-2019.json
 
