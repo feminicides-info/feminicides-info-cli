@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+cmd = "pipenv run twarc timeline feminicidesfr"
+cmd_io = IO.popen(cmd)
+cmd_io.readlines.map do |json|
+  data = JSON.parse(json)
+  data["full_text"]
+end
+.filter do |text|
+  text =~ /^\[\d+\]/
+end
+.each do |text|
+  puts text
+end
+
+
+#	|jq -r '.full_text' \
+#	|sed -n 

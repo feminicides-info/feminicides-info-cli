@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -u
+set -e
+
+URL=""
+URL_2016="https://www.google.com/maps/d/u/0/kml?mid=1vikwsH56LM9t5eBu3VOAhzLEqIk"
+URL_2017="https://www.google.com/maps/d/u/0/kml?mid=15ZxvoBUgO4ttolUFSoU5UmuRe98"
+URL_2018="https://www.google.com/maps/d/u/0/kml?mid=19gV1RSgQ5LNG51BeE-WiV7G8m1MocfXZ"
+URL_2019="https://www.google.com/maps/d/u/1/kml?mid=1Y9bFj8Cjfl3rKwuyDBB5-LNkdKKAjtq9"
+
+ZIPFILE=$(mktemp).zip
+ZIPDIR=$(mktemp -d)
+
+for year in $(seq -w 2016 2019); do
+	eval "URL=\$URL_${year}"
+	if [ -z "$URL" ]; then continue ; fi
+
+	echo "Year $year"
+	echo "* Downloading..."
+	wget -q -O "$ZIPFILE" "$URL"
+	echo "* Extracting..."
+	unzip -q "$ZIPFILE" -d "$ZIPDIR"
+
+	echo "* Renaming..."
+	# shellcheck disable=SC2002 
+	cat "$ZIPDIR/doc.kml" \
+		| iconv -f utf8 -t ascii//TRANSLIT \
+		| sed -e 's/ĺ/l/g' \
+		>  "doc-$year.kml"
+
+	echo "* Cleaning..."
+	rm -f "$ZIPFILE"
+	rm -fr "$ZIPDIR"
+	echo "* Done"
+	echo ""
+done
+
