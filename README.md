@@ -21,14 +21,14 @@ Depuis la ligne de commande, tapez :
 
 ## Usage
 
-Pour télécharger les KML des féminicides :
+Pour télécharger les données des féminicides au format KML :
 
     $ ./fi-cli fetch 2016
     Fetching KML for year 2016
     Fetching from https://www.google.com/maps/...
     SUCCESS
 
-Pour convertir les KML au format JSON
+Pour convertir les fichiers KML au format JSON :
 
     $ ./fi-cli convert doc-2019.kml doc-2019.json
     $ ls
