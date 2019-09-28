@@ -30,7 +30,7 @@ Pour télécharger les données des féminicides au format KML (de 2016 à 2019)
     
 Par exemple pour 2016 :
 
-    $ fi-cli fetch YEAR
+    $ fi-cli fetch 2016
     Fetching KML for year 2016
     Fetching from https://www.google.com/maps/...
     SUCCESS
