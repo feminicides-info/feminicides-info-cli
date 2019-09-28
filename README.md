@@ -1,6 +1,6 @@
 # Féminicides·Info - CLI
 
-Outil en ligne de commande pour le téléchargement et la conversion des données
+Outil en ligne de commande (CLI) pour le téléchargement et la conversion des données
 des féminicides depuis le format KML (des cartographies Google Maps) vers le
 format JSON (utilisables pour différents rendu web).
 
