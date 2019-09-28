@@ -22,18 +22,32 @@ Depuis la ligne de commande, tapez :
 
 ## Usage
 
-Pour télécharger les données des féminicides au format KML :
+### Téléchargement des données
 
-    $ fi-cli fetch 2016
+Pour télécharger les données des féminicides au format KML (de 2016 à 2019) :
+
+    $ fi-cli fetch YEAR
+    
+Par exemple pour 2016 :
+
+    $ fi-cli fetch YEAR
     Fetching KML for year 2016
     Fetching from https://www.google.com/maps/...
     SUCCESS
+    $ ls
+    doc-2016.kml
+
+### Conversion des données
 
 Pour convertir les fichiers KML au format JSON :
 
-    $ fi-cli convert doc-2019.kml doc-2019.json
+    $ fi-cli convert FICHIER_KML FICHIER_JSON
+
+Par exemple pour 2016 :
+
+    $ fi-cli convert doc-2016.kml doc-2016.json
     $ ls
-    doc-2019.kml doc-2019.json
+    doc-2016.kml doc-2016.json
 
 
 ## Licence et droit d'auteur
