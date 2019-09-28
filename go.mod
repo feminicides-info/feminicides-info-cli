@@ -1,4 +1,4 @@
-module glenux/feminicides-info-collect
+module github.com/glenux/feminicides-info-cli
 
 go 1.12
 
