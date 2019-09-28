@@ -1,4 +1,4 @@
 *.json
-fi-cli
+/fi-cli
 *.kml
 vendor
