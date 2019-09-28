@@ -1,4 +1,4 @@
-# Feminicides Info - Cli
+# Feminicides·Info - Cli
 
 Outil en ligne de commande pour le téléchargement et la conversion des données
 des féminicides depuis le format KML (des cartographies Google Maps) vers le
@@ -38,16 +38,15 @@ Pour convertir les fichiers KML au format JSON :
 
 ## Licence et droit d'auteur
 
-[Féminicides.Info CLI](https://github.com/glenux/feminicides-info-cli) est un projet open source sous licence LGPL-3.
+[Féminicides·Info CLI](https://github.com/glenux/feminicides-info-cli) est un projet open source sous licence LGPL-3.
 
 Auteur : Glenn Rolland.
 
-<!-- 
-## Sponsors et financeurs
+## Sponsors et financement
 
-[Féminicides.Info]( est un projet indépendant dont le développement continu est rendu possible
-grâce au soutien de ses mécènes. Si vous souhaitez vous joindre à eux et soutenir le travail
-de son auteur, n'hésitez pas participer :
+[Féminicides·Info]((https://github.com/glenux/feminicides-info) est un projet indépendant dont le développement continu est rendu possible grâce au soutien de ses mécènes. 
 
-[Devenez mécène ou sponsor sur Patreon](https://www.patreon.com/glenux)
--->
+Si vous souhaitez vous joindre à eux et soutenir le travail de son auteur, il suffit de participer avec ce lien :
+
+&gt;&gt; [Devenez mécène ou sponsor sur Patreon](https://www.patreon.com/glenux) &lt;&lt;
+
