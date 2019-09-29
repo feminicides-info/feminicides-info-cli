@@ -22,6 +22,46 @@ Depuis la ligne de commande, tapez :
 
 ## Usage
 
+### Vue d'ensemble
+
+Commande principale
+
+    Usage:
+      fi-cli [command]
+
+    Available Commands:
+      convert     Convert feminicide-related KML into JSON
+      fetch       Fetch KML data for feminicide in specified year
+      help        Help about any command
+
+    Flags:
+      -h, --help   help for fi-cli
+
+    Use "fi-cli [command] --help" for more information about a command.
+
+Sous-commande `fetch` :
+
+    Fetch KML data for feminicide in specified year
+
+    Usage:
+      fi-cli fetch YEAR [flags]
+
+    Flags:
+      -h, --help            help for fetch
+      -o, --output string   Output file name for JSON (default "-")
+
+Sous-commande `convert` :
+
+    Convert feminicide-related KML into JSON (long)
+
+    Usage:
+      fi-cli convert SOURCE_KML [flags]
+
+    Flags:
+      -h, --help            help for convert
+      -o, --output string   Output file name for KML (default "-")
+
+
 ### Téléchargement des données
 
 Pour télécharger les données des féminicides au format KML (de 2016 à 2019) :
@@ -30,12 +70,13 @@ Pour télécharger les données des féminicides au format KML (de 2016 à 2019)
     
 Par exemple pour 2016 :
 
-    $ fi-cli fetch 2016
+    $ fi-cli fetch -o feminicides-2016 2016
     Fetching KML for year 2016
     Fetching from https://www.google.com/maps/...
     SUCCESS
+
     $ ls
-    doc-2016.kml
+    feminicides-2016.kml
 
 ### Conversion des données
 
@@ -45,9 +86,10 @@ Pour convertir les fichiers KML au format JSON :
 
 Par exemple pour 2016 :
 
-    $ fi-cli convert doc-2016.kml doc-2016.json
+    $ fi-cli convert -o feminicides-2016.json feminicides-2016.kml
+
     $ ls
-    doc-2016.kml doc-2016.json
+    feminicides-2016.kml feminicides-2016.json
 
 
 ## Licence et droit d'auteur

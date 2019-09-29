@@ -45,12 +45,12 @@ func downloadFile(filepath string, url string) error {
 
 func fetch(options FetchOptions) error {
 	url, ok := urlForYear[options.Year]
-	fmt.Printf("Fetching KML for year %s\n", options.Year)
+	fmt.Fprintf(os.Stderr, "Fetching KML for year %s\n", options.Year)
 	if !ok {
 		return errors.New(fmt.Sprintf("Missing data for year %s!\n", options.Year))
 	}
 
-	fmt.Printf("Fetching from %s\n", url)
+	fmt.Fprintf(os.Stderr, "Fetching from %s\n", url)
 	zipHandler, err := ioutil.TempFile(os.TempDir(), "fi-cli-*.zip")
 	if err != nil {
 		log.Fatal(err)
@@ -93,6 +93,6 @@ func fetch(options FetchOptions) error {
 		outFile.Close()
 		rc.Close()
 	}
-	fmt.Println("SUCCESS")
+	fmt.Fprintf(os.Stderr, "SUCCESS\n")
 	return nil
 }

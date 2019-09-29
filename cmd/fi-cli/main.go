@@ -24,7 +24,7 @@ func main() {
 			}
 		},
 	}
-	convertCmd.Flags().StringVarP(&convertOptions.OutputJson, "output", "o", "-", "Output file name for KML (default: STDOUT)")
+	convertCmd.Flags().StringVarP(&convertOptions.OutputJson, "output", "o", "-", "Output file name for KML")
 
 	var fetchOptions FetchOptions
 	var fetchCmd = &cobra.Command{
@@ -41,7 +41,7 @@ func main() {
 			}
 		},
 	}
-	fetchCmd.Flags().StringVarP(&fetchOptions.OutputKml, "output", "o", "-", "Output file name for JSON (default: STDOUT)")
+	fetchCmd.Flags().StringVarP(&fetchOptions.OutputKml, "output", "o", "-", "Output file name for JSON")
 
 	var rootCmd = &cobra.Command{Use: "fi-cli"}
 	rootCmd.AddCommand(convertCmd, fetchCmd)
