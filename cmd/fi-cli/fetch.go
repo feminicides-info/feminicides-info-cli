@@ -2,12 +2,19 @@ package main
 
 import (
 	"archive/zip"
+	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
-	"syscall"
 )
+
+type FetchOptions = struct {
+	Year      string
+	OutputKml string
+}
 
 var urlForYear = map[string]string{
 	"2016": "https://www.google.com/maps/d/u/0/kml?mid=1vikwsH56LM9t5eBu3VOAhzLEqIk",
@@ -36,25 +43,29 @@ func downloadFile(filepath string, url string) error {
 	return err
 }
 
-func fetch(year string) {
-	url, ok := urlForYear[year]
+func fetch(options FetchOptions) error {
+	url, ok := urlForYear[options.Year]
+	fmt.Printf("Fetching KML for year %s\n", options.Year)
 	if !ok {
-		fmt.Printf("Missing data for year %s!\n", year)
-		return
+		return errors.New(fmt.Sprintf("Missing data for year %s!\n", options.Year))
 	}
 
 	fmt.Printf("Fetching from %s\n", url)
-	zipFile := fmt.Sprintf("doc-%s.zip", year)
-	kmlFile := fmt.Sprintf("doc-%s.kml", year)
-	// download da fuckin' zip
+	zipHandler, err := ioutil.TempFile(os.TempDir(), "fi-cli-*.zip")
+	if err != nil {
+		log.Fatal(err)
+	}
+	zipFile := zipHandler.Name()
+	defer os.Remove(zipFile)
+
+	kmlFile := options.OutputKml
 	if err := downloadFile(zipFile, url); err != nil {
 		panic(err)
 	}
 
-	// extract da fuckin' zip
 	r, err := zip.OpenReader(zipFile)
 	if err != nil {
-		return
+		return err
 	}
 	defer r.Close()
 
@@ -63,22 +74,25 @@ func fetch(year string) {
 			continue
 		}
 
-		outFile, err :=
-			os.OpenFile(kmlFile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
-		if err != nil {
-			return
+		var outFile *os.File
+		if kmlFile == "-" {
+			outFile = os.Stdout
+		} else {
+			outFile, err = os.OpenFile(kmlFile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
+			if err != nil {
+				return err
+			}
 		}
 
 		rc, err := f.Open()
 		if err != nil {
-			return
+			return err
 		}
 
 		_, err = io.Copy(outFile, rc)
 		outFile.Close()
 		rc.Close()
 	}
-	syscall.Unlink(zipFile)
-
 	fmt.Println("SUCCESS")
+	return nil
 }

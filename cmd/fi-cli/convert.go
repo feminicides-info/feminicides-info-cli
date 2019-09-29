@@ -10,12 +10,18 @@ import (
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/norm"
 	"io/ioutil"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 	"unicode"
 )
+
+type ConvertOptions = struct {
+	InputKml   string
+	OutputJson string
+}
 
 var indexOfMonth = map[string]time.Month{
 	"janvier":   time.January,
@@ -32,8 +38,8 @@ var indexOfMonth = map[string]time.Month{
 	"decembre":  time.December,
 }
 
-type JsonMurders struct {
-	Murders []JsonWoman `json:"murders"`
+type JsonFeminicides struct {
+	Feminicides []JsonWoman `json:"feminicides"`
 }
 
 type JsonWoman struct {
@@ -65,16 +71,15 @@ func getDataFolder(kml KmlRoot) *KmlFolder {
 func extractName(name string) string {
 	// remove NBSP
 	fixedName := strings.Replace(name, "\u00a0", " ", -1)
-	r, _ := regexp.Compile("^\\d+\\s*-\\s*(\\S+)")
+	r, _ := regexp.Compile("^[O\\d]+\\s*-\\s*(\\S+)")
 	match := r.FindStringSubmatch(fixedName)
 	if len(match) > 0 {
-		if len(match[1]) < 2 {
-			fmt.Println(fixedName)
-		}
 		return match[1]
 	}
-	fmt.Println(fixedName)
-	return "(no match)"
+	fmt.Fprintf(os.Stderr,
+		"WARNING: extractName: Unable to extract name from « %s »\n",
+		fixedName)
+	return "(anonymous)"
 }
 
 func isMn(r rune) bool {
@@ -122,12 +127,14 @@ func stripCtlAndExtFromUnicode(str string) string {
 	return str
 }
 
-func convert(filenameKml string, filenameJson string) error {
-	var murders JsonMurders
+func convert(options ConvertOptions) error {
+	var murders JsonFeminicides
 	var kml KmlRoot
 
-	rawXml, err := ioutil.ReadFile(filenameKml)
+	rawXml, err := ioutil.ReadFile(options.InputKml)
 	cleanRawXml := []byte(stripCtlAndExtFromUnicode(string(rawXml)))
+
+	fmt.Printf("Converting KML %s into JSON %s...\n", options.InputKml, options.OutputJson)
 
 	if err != nil {
 		return errors.New("convert: Unable to read input file")
@@ -153,10 +160,21 @@ func convert(filenameKml string, filenameJson string) error {
 			Name: extractName(name),
 			Date: extractDate(removeAccents(desc), year),
 		}
-		fmt.Printf("%+v\n", woman)
-		murders.Murders = append(murders.Murders, woman)
+		// fmt.Printf("%+v\n", woman)
+		murders.Feminicides = append(murders.Feminicides, woman)
 	}
 	rawJson, err := json.MarshalIndent(murders, "", "  ")
-	err = ioutil.WriteFile(filenameJson, rawJson, 0644)
+
+	var fh *os.File
+	if options.OutputJson == "-" {
+		fh = os.Stdout
+	} else {
+		fh, err = os.OpenFile(options.OutputJson, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	}
+	if _, err = fh.Write(rawJson); err != nil {
+		fh.Close() // ignore error; Write error takes precedence
+		return err
+	}
+	fh.Close()
 	return err
 }

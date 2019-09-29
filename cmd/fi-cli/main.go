@@ -5,34 +5,45 @@ package main
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 func main() {
-	var cmdConvert = &cobra.Command{
-		Use:   "convert SOURCE_KML DESTIMATION_JSON",
+	var convertOptions ConvertOptions
+	var convertCmd = &cobra.Command{
+		Use:   "convert SOURCE_KML",
 		Short: "Convert feminicide-related KML into JSON",
 		Long:  `Convert feminicide-related KML into JSON (long)`,
-		Args:  cobra.MinimumNArgs(2),
+		Args:  cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			kmlFile := args[0]
-			jsonFile := args[1]
-			fmt.Printf("Converting KML %s into JSON %s...\n", kmlFile, jsonFile)
-			convert(kmlFile, jsonFile)
+			convertOptions.InputKml = args[0]
+			err := convert(convertOptions)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, err.Error())
+				os.Exit(1)
+			}
 		},
 	}
+	convertCmd.Flags().StringVarP(&convertOptions.OutputJson, "output", "o", "-", "Output file name for KML (default: STDOUT)")
 
-	var cmdFetch = &cobra.Command{
+	var fetchOptions FetchOptions
+	var fetchCmd = &cobra.Command{
 		Use:   "fetch YEAR",
 		Short: "Fetch KML data for feminicide in specified year",
 		Long:  "Fetch KML data for feminicide in specified year",
-		Args:  cobra.MinimumNArgs(1),
+		Args:  cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			year := args[0]
-			fmt.Printf("Fetching KML for year %s\n", year)
-			fetch(year)
+			fetchOptions.Year = args[0]
+			err := fetch(fetchOptions)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, err.Error())
+				os.Exit(1)
+			}
 		},
 	}
+	fetchCmd.Flags().StringVarP(&fetchOptions.OutputKml, "output", "o", "-", "Output file name for JSON (default: STDOUT)")
+
 	var rootCmd = &cobra.Command{Use: "fi-cli"}
-	rootCmd.AddCommand(cmdConvert, cmdFetch)
+	rootCmd.AddCommand(convertCmd, fetchCmd)
 	rootCmd.Execute()
 }
