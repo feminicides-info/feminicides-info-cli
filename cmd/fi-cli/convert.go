@@ -130,11 +130,17 @@ func stripCtlAndExtFromUnicode(str string) string {
 func convert(options ConvertOptions) error {
 	var murders JsonFeminicides
 	var kml KmlRoot
+	var err error
+	var rawXml []byte
 
-	rawXml, err := ioutil.ReadFile(options.InputKml)
+	if options.InputKml == "-" {
+		rawXml, err = ioutil.ReadAll(os.Stdin)
+	} else {
+		rawXml, err = ioutil.ReadFile(options.InputKml)
+	}
 	cleanRawXml := []byte(stripCtlAndExtFromUnicode(string(rawXml)))
 
-	fmt.Printf("Converting KML %s into JSON %s...\n", options.InputKml, options.OutputJson)
+	fmt.Fprintf(os.Stderr, "Converting KML %s into JSON %s...\n", options.InputKml, options.OutputJson)
 
 	if err != nil {
 		return errors.New("convert: Unable to read input file")
