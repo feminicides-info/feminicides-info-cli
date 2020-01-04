@@ -11,6 +11,7 @@ import (
 	"os"
 )
 
+// FetchOptions :
 type FetchOptions = struct {
 	Year      string
 	OutputKml string
@@ -21,6 +22,7 @@ var urlForYear = map[string]string{
 	"2017": "https://www.google.com/maps/d/u/0/kml?mid=15ZxvoBUgO4ttolUFSoU5UmuRe98",
 	"2018": "https://www.google.com/maps/d/u/0/kml?mid=19gV1RSgQ5LNG51BeE-WiV7G8m1MocfXZ",
 	"2019": "https://www.google.com/maps/d/u/1/kml?mid=1Y9bFj8Cjfl3rKwuyDBB5-LNkdKKAjtq9",
+	"2020": "https://www.google.com/maps/d/kml?mid=1KlTxeXvul_y_lfo0JuTdnuksqA1LW6JS",
 }
 
 func downloadFile(filepath string, url string) error {
